@@ -1,6 +1,10 @@
 import { Document, Schema } from 'mongoose';
 import { Request } from 'express';
 
+export interface IService {
+  init(): Promise<boolean>;
+}
+
 export type MulterCB = (error: Error | null, result?: boolean | string) => void;
 
 export type MulterFile = Express.Multer.File;
