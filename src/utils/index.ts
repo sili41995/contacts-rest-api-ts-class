@@ -6,3 +6,5 @@ export { default as uploadImage } from './uploadImage';
 export { default as getFindFilter } from './getFindFilter';
 export { default as updateImage } from './updateImage';
 export { default as getImageFilename } from './getImageFilename';
+export { default as ApiResponse } from './ApiResponse';
+export { default as ApiError } from './ApiError';

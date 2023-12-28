@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { Schema, model } from 'mongoose';
-import { IUser } from '../types/types';
+import { IUser } from '../../types/types';
 import { ErrorMessages, regExp, DefaultAvatarsURL } from '../constants';
 import { preUpdate, handleMongooseError } from './hooks';
 

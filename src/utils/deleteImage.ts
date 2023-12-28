@@ -1,5 +1,5 @@
 import { v2 as cloudinary } from 'cloudinary';
-import { DefaultAvatarsURL } from '../constants';
+import { DefaultAvatarsURL } from '../app/constants';
 
 const deleteImage = async (imageURL: string): Promise<void> => {
   if (imageURL === DefaultAvatarsURL.contact) {

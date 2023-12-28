@@ -1,4 +1,4 @@
-import { IUser } from '../types/types';
+import { IUser } from '../../types/types';
 
 const preUpdate = function (this: any, next: () => void): void {
   this.options.new = true;

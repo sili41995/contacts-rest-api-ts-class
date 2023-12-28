@@ -2,7 +2,7 @@ import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 import { preUpdate, handleMongooseError } from './hooks';
 import { regExp, DefaultAvatarsURL, ErrorMessages } from '../constants';
-import { IContact } from '../types/types';
+import { IContact } from '../../types/types';
 
 const { phoneRegEx, emailRegEx } = regExp;
 

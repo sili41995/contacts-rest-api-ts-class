@@ -1,7 +1,7 @@
 import { UploadApiResponse } from 'cloudinary';
 import fs from 'fs/promises';
 import cloudinary from './cloudinary';
-import { DefaultAvatarsURL } from '../constants';
+import { DefaultAvatarsURL } from '../app/constants';
 import { IUpdateImageProps } from '../types/types';
 
 const updateImage = async ({
