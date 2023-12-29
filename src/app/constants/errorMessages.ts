@@ -1,8 +1,8 @@
 enum ErrorMessages {
   fileAbsentErr = 'File is absent',
-  emailRegExErr = 'Email must be letters, digits, dot and @',
-  phoneRegExErr = 'Phone number must be digits and can start with character +',
-  dateOfBirthRegExErr = 'Date of birth must be in DD-MM-YYYY format',
+  emailRegExpErr = 'Email must be letters, digits, dot and @',
+  phoneRegExpErr = 'Phone number must be digits and can start with character +',
+  dateOfBirthRegExpErr = 'Date of birth must be in DD-MM-YYYY format',
   phoneRequiredErr = 'Missing required phone field',
   nameRequiredErr = 'Missing required name field',
   emailRequiredErr = 'Missing required email field',

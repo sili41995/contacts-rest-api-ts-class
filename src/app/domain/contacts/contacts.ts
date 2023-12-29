@@ -1,8 +1,9 @@
 import { JsonController, Get, Post, Body, Param } from 'routing-controllers';
 import { IContact, IUser } from '../../../types/types';
 import { Contact } from '../../models/contact';
-import { ApiResponse } from '../../../utils';
-import CreateContact from './CreateContact.dto';
+import { ApiError, ApiResponse } from '../../../utils';
+import ContactDto from './ContactDto.dto';
+import { validate } from 'class-validator';
 
 @JsonController('/contacts')
 class Contacts {
@@ -12,7 +13,7 @@ class Contacts {
     const result = await Contact.find({}, filter);
     const count = await Contact.find({}).countDocuments();
     const response = {
-      contacts: CreateContact.fromObject(result),
+      contacts: ContactDto.fromObject(result),
       count,
     };
 
@@ -26,11 +27,23 @@ class Contacts {
   //   //   });
   //   //   return person || {};
   // }
-  // @Post()
-  // // async setPerson(@Body() body: IPerson) {
-  // //   //   storeData.push(body);
-  // //   //   return true;
-  // // }
+
+  @Post()
+  async setContact(@Body() body: ContactDto) {
+    const errors = await validate(body);
+    console.log(errors.length);
+    if (errors.length) {
+      throw new ApiError(400, {
+        message: 'Validation failed',
+        code: 'CONTACT_VALIDATION_ERROR',
+        errors,
+      });
+    }
+
+    const result = await Contact.create(body);
+
+    return new ApiResponse(true, ContactDto.fromObject(result));
+  }
 }
 
 export default Contacts;

@@ -1,12 +1,12 @@
 import { Schema, model } from 'mongoose';
 import Joi from 'joi';
 import { preUpdate, handleMongooseError } from './hooks';
-import { regExp, DefaultAvatarsURL, ErrorMessages } from '../constants';
+import { RegExp, DefaultAvatarsURL, ErrorMessages } from '../constants';
 import { IContact } from '../../types/types';
 
-const { phoneRegEx, emailRegEx } = regExp;
+const { phoneRegExp, emailRegExp } = RegExp;
 
-const { emailRegExErr, phoneRegExErr, phoneRequiredErr, nameRequiredErr } =
+const { emailRegExpErr, phoneRegExpErr, phoneRequiredErr, nameRequiredErr } =
   ErrorMessages;
 
 const contactSchema = new Schema<IContact>(
@@ -14,12 +14,12 @@ const contactSchema = new Schema<IContact>(
     name: { type: String, required: [true, nameRequiredErr] },
     phone: {
       type: String,
-      match: [phoneRegEx, phoneRegExErr],
+      match: [phoneRegExp, phoneRegExpErr],
       required: [true, phoneRequiredErr],
     },
     email: {
       type: String,
-      match: [emailRegEx, emailRegExErr],
+      match: [emailRegExp, emailRegExpErr],
     },
     role: String,
     description: String,
@@ -41,21 +41,6 @@ contactSchema.pre('findOneAndUpdate', preUpdate);
 contactSchema.post('save', handleMongooseError);
 contactSchema.post('findOneAndUpdate', handleMongooseError);
 
-const addSchema = Joi.object({
-  name: Joi.string().required().messages({ 'any.required': nameRequiredErr }),
-  phone: Joi.string().pattern(phoneRegEx).required().messages({
-    'any.required': phoneRequiredErr,
-    'string.pattern.base': phoneRegExErr,
-  }),
-  email: Joi.string().pattern(emailRegEx).messages({
-    'string.pattern.base': emailRegExErr,
-  }),
-  role: Joi.string(),
-  description: Joi.string(),
-  tgUsername: Joi.string(),
-  favorite: Joi.boolean(),
-});
-
 const updateSchema = Joi.object()
   .min(1)
   .messages({ 'object.min': 'Missing fields' });
@@ -69,4 +54,4 @@ const updateStatusContactSchema = Joi.object()
 
 const Contact = model<IContact>('contact', contactSchema);
 
-export { Contact, addSchema, updateSchema, updateStatusContactSchema };
+export { Contact, updateSchema, updateStatusContactSchema };

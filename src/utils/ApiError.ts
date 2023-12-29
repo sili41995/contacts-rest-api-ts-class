@@ -10,7 +10,6 @@ interface MessageInterface {
 
 class ApiError extends HttpError {
   protected error: MessageInterface;
-  // public removeLog: boolean;
 
   constructor(status = 500, error: Omit<MessageInterface, 'status'>) {
     super(status);

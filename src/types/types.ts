@@ -1,4 +1,4 @@
-import { Document, Schema } from 'mongoose';
+import { Document, Schema, ObjectId } from 'mongoose';
 import { Request } from 'express';
 
 export interface IService {
@@ -28,7 +28,7 @@ export interface IFilterUpdateData {
 }
 
 export interface IUser {
-  _id: string;
+  _id: ObjectId;
   name: string;
   lastName?: string;
   password: string;
@@ -41,7 +41,7 @@ export interface IUser {
 }
 
 export interface INewContact {
-  _id: string;
+  _id: ObjectId;
   name: string;
   phone: string;
   email?: string;

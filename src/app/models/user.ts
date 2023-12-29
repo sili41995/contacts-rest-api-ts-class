@@ -1,19 +1,19 @@
 import Joi from 'joi';
 import { Schema, model } from 'mongoose';
 import { IUser } from '../../types/types';
-import { ErrorMessages, regExp, DefaultAvatarsURL } from '../constants';
+import { ErrorMessages, RegExp, DefaultAvatarsURL } from '../constants';
 import { preUpdate, handleMongooseError } from './hooks';
 
-const { phoneRegEx, emailRegEx, dateOfBirthRegEx } = regExp;
+const { phoneRegExp, emailRegExp, dateOfBirthRegExp } = RegExp;
 
 const {
-  emailRegExErr,
-  phoneRegExErr,
+  emailRegExpErr,
+  phoneRegExpErr,
   emailRequiredErr,
   passwordRequiredErr,
   passwordLengthErr,
   nameRequiredErr,
-  dateOfBirthRegExErr,
+  dateOfBirthRegExpErr,
 } = ErrorMessages;
 
 const userSchema = new Schema<IUser>(
@@ -29,18 +29,18 @@ const userSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      match: [emailRegEx, emailRegExErr],
+      match: [emailRegExp, emailRegExpErr],
       required: [true, emailRequiredErr],
       unique: true,
     },
     phone: {
       type: String,
-      match: [phoneRegEx, phoneRegExErr],
+      match: [phoneRegExp, phoneRegExpErr],
     },
     location: String,
     dateOfBirth: {
       type: String,
-      match: [dateOfBirthRegEx, dateOfBirthRegExErr],
+      match: [dateOfBirthRegExp, dateOfBirthRegExpErr],
     },
     token: {
       type: String,
@@ -62,9 +62,9 @@ const passwordSettings = Joi.string().min(6).required().messages({
   'any.required': passwordRequiredErr,
   'string.min': passwordLengthErr,
 });
-const emailSettings = Joi.string().pattern(emailRegEx).required().messages({
+const emailSettings = Joi.string().pattern(emailRegExp).required().messages({
   'any.required': emailRequiredErr,
-  'string.pattern.base': emailRegExErr,
+  'string.pattern.base': emailRegExpErr,
 });
 
 const signUpSchema = Joi.object({
@@ -72,12 +72,12 @@ const signUpSchema = Joi.object({
   lastName: Joi.string(),
   password: passwordSettings,
   email: emailSettings,
-  phone: Joi.string().pattern(phoneRegEx).messages({
-    'string.pattern.base': phoneRegExErr,
+  phone: Joi.string().pattern(phoneRegExp).messages({
+    'string.pattern.base': phoneRegExpErr,
   }),
   location: Joi.string(),
-  dateOfBirth: Joi.string().pattern(dateOfBirthRegEx).messages({
-    'string.pattern.base': dateOfBirthRegExErr,
+  dateOfBirth: Joi.string().pattern(dateOfBirthRegExp).messages({
+    'string.pattern.base': dateOfBirthRegExpErr,
   }),
 });
 const signInSchema = Joi.object({
