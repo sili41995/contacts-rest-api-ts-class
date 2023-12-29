@@ -1,9 +1,8 @@
 import Auth from './auth/auth';
 import Contacts from './contacts/contacts';
 
-type AuthController = typeof Auth;
-type ContactsController = typeof Contacts;
+type Controller = typeof Auth | typeof Contacts;
 
-const controllers = <[AuthController, ContactsController]>[Auth, Contacts];
+const controllers = <Controller[]>[Auth, Contacts];
 
 export { controllers };

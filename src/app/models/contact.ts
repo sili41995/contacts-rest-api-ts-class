@@ -41,9 +41,6 @@ contactSchema.pre('findOneAndUpdate', preUpdate);
 contactSchema.post('save', handleMongooseError);
 contactSchema.post('findOneAndUpdate', handleMongooseError);
 
-const updateSchema = Joi.object()
-  .min(1)
-  .messages({ 'object.min': 'Missing fields' });
 const updateStatusContactSchema = Joi.object()
   .keys({
     favorite: Joi.boolean(),
@@ -54,4 +51,4 @@ const updateStatusContactSchema = Joi.object()
 
 const Contact = model<IContact>('contact', contactSchema);
 
-export { Contact, updateSchema, updateStatusContactSchema };
+export { Contact, updateStatusContactSchema };

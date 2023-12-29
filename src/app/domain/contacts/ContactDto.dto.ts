@@ -14,6 +14,10 @@ export class ContactDto implements INewContact {
   @Type(() => String)
   _id: ObjectId;
 
+  @Expose({ name: 'owner' })
+  @Type(() => String)
+  owner: ObjectId;
+
   @Expose()
   @IsNotEmpty({ message: nameRequiredErr })
   name: string;
