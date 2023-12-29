@@ -1,7 +1,8 @@
 import { JsonController, Get, Post, Body, Param } from 'routing-controllers';
 import { IContact, IUser } from '../../../types/types';
 import { Contact } from '../../models/contact';
-import { ApiResponse, cleanObject } from '../../../utils';
+import { ApiResponse } from '../../../utils';
+import CreateContact from './CreateContact.dto';
 
 @JsonController('/contacts')
 class Contacts {
@@ -11,7 +12,7 @@ class Contacts {
     const result = await Contact.find({}, filter);
     const count = await Contact.find({}).countDocuments();
     const response = {
-      contacts: cleanObject(result),
+      contacts: CreateContact.fromObject(result),
       count,
     };
 

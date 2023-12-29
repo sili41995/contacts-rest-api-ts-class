@@ -27,7 +27,7 @@ export interface IFilterUpdateData {
   set: IUpdateData;
 }
 
-export interface IUser extends Document {
+export interface IUser {
   _id: string;
   name: string;
   lastName?: string;
@@ -40,7 +40,7 @@ export interface IUser extends Document {
   avatar: string;
 }
 
-export interface INewContact extends Document {
+export interface INewContact {
   _id: string;
   name: string;
   phone: string;
