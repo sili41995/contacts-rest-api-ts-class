@@ -5,14 +5,22 @@ import {
   Body,
   Param,
   Put,
+  All,
+  NotFoundError,
+  UseBefore,
 } from 'routing-controllers';
 import { IContact, IUser } from '../../../types/types';
 import { Contact } from '../../models/contact';
 import { ApiError, ApiResponse } from '../../../utils';
 import ContactDto from './ContactDto.dto';
 import { validate } from 'class-validator';
-import UpdateContactDto from './UpdateContactDto.dto';
+// import UpdateContactDto from './UpdateContactDto.dto';
 import { plainToClass } from 'class-transformer';
+import UpdateContactDto from './UpdateContactDto.dto';
+import { ErrorMessages } from 'app/constants';
+import isValidId from 'app/middlewares/isValidId';
+
+const { emptyBodyErr } = ErrorMessages;
 
 @JsonController('/contacts')
 class Contacts {
@@ -22,7 +30,7 @@ class Contacts {
     const result = await Contact.find({}, filter);
     const count = await Contact.find({}).countDocuments();
     const response = {
-      contacts: ContactDto.fromObject(result),
+      contacts: result,
       count,
     };
 
@@ -40,14 +48,13 @@ class Contacts {
       });
     }
 
-    const contact = ContactDto.fromObject(result);
-    return new ApiResponse(true, contact);
+    return new ApiResponse(true, result);
   }
 
   @Post()
   async setContact(@Body() body: ContactDto) {
     const errors = await validate(body);
-    console.log(errors.length);
+
     if (errors.length) {
       throw new ApiError(400, {
         message: 'Validation failed',
@@ -58,16 +65,22 @@ class Contacts {
 
     const result = await Contact.create(body);
 
-    return new ApiResponse(true, ContactDto.fromObject(result));
+    return new ApiResponse(true, result);
   }
 
   @Put('/:id')
+  @UseBefore(isValidId)
   async updateContact(
     @Body() body: UpdateContactDto,
     @Param('id') id: string
   ): Promise<ApiResponse<IContact>> {
-    const validationDTO = plainToClass(UpdateContactDto, body);
-    console.log(validationDTO);
+    if (Object.keys(body).length === 0) {
+      throw new ApiError(400, {
+        code: 'BODY_VALIDATION_ERROR',
+        message: emptyBodyErr,
+      });
+    }
+
     const errors = await validate(body);
 
     if (errors.length) {
@@ -87,8 +100,7 @@ class Contacts {
       });
     }
 
-    const contact = ContactDto.fromObject(result);
-    return new ApiResponse(true, contact);
+    return new ApiResponse(true, result);
   }
 }
 

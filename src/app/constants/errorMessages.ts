@@ -1,4 +1,5 @@
 enum ErrorMessages {
+  emptyBodyErr = 'Missing fields',
   fileAbsentErr = 'File is absent',
   emailRegExpErr = 'Email must be letters, digits, dot and @',
   phoneRegExpErr = 'Phone number must be digits and can start with character +',
